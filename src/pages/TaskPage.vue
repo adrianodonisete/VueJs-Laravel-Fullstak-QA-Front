@@ -4,19 +4,22 @@
       <div class="row">
         <div class="col-md-8 offset-md-2">
           <!-- Add new Task -->
-          <div class="relative">
-            <input type="text" class="form-control form-control-lg padding-right-lg"
-              placeholder="+ Add new task. Press enter to save." />
-          </div>
+          <NewTask @added="handledAddedTask" />
 
           <!-- List of tasks uncompleted -->
           <Tasks :tasks="uncompletedTasks" />
 
           <!-- show toogle botton -->
+          <div class="text-center my-3" v-show="showToggleCompletedBtn"
+            @click="$event => showCompletedTasks = !showCompletedTasks">
+            <button class="btn btn-sm btn-secondary">
+              <span v-if="!showCompletedTasks">Show completed</span>
+              <span v-else>Hide completed</span>
+            </button>
+          </div>
 
           <!-- List of tasks completed -->
-          <Tasks :tasks="completedTasks" />
-
+          <Tasks :tasks="completedTasks" :show="completedTasksIsVisible && showCompletedTasks" />
 
         </div>
       </div>
@@ -26,8 +29,9 @@
 
 <script setup>
 import { computed, onMounted, ref } from "vue";
-import { allTasks } from '../http/task-api';
+import { allTasks, createTask } from '../http/task-api';
 import Tasks from '../components/tasks/Tasks.vue';
+import NewTask from '../components/tasks/NewTask.vue';
 
 const tasks = ref([]);
 
@@ -37,7 +41,23 @@ onMounted(async () =>
   tasks.value = data.data;
 });
 
-const uncompletedTasks = computed(() => tasks.value.filter(task => !task.is_completed));
+const uncompletedTasks = computed(() => tasks.value.filter(task => !task?.is_completed));
 
-const completedTasks = computed(() => tasks.value.filter(task => task.is_completed));
+const completedTasks = computed(() => tasks.value.filter(task => task?.is_completed));
+
+const showToggleCompletedBtn = computed(
+  () => uncompletedTasks.value.length > 0 && completedTasks.value.length > 0
+);
+
+const completedTasksIsVisible = computed(
+  () => uncompletedTasks.value.length === 0 || completedTasks.value.length > 0
+);
+
+const showCompletedTasks = ref(false);
+
+const handledAddedTask = async (newTask) =>
+{
+  const { data: addedTask } = await createTask(newTask);
+  tasks.value.unshift(addedTask.data);
+}
 </script>
