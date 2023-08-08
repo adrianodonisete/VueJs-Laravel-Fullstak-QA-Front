@@ -17,11 +17,11 @@ const emit = defineEmits(['added']);
 
 const addNewTask = async (event) =>
 {
-  const descriptionTask = event.target.value.trim();
+  const descriptionTask = event.target.value.trim()
   if (descriptionTask)
   {
-    newTask.name = descriptionTask;
-    event.target.value = '';
+    newTask.name = descriptionTask
+    event.target.value = ''
 
     await emit('added', newTask);
   }

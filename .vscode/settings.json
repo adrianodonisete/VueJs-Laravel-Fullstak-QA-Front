@@ -1,4 +1,10 @@
 {
+    "editor.tabSize": 2,
+    "editor.fontSize": 13.25,
+    "editor.detectIndentation": true,
     "editor.formatOnSave": true,
-    "editor.tabSize": 2
+    "prettier.semi": true,
+    "prettier.vueIndentScriptAndStyle": false,
+    "javascript.format.semicolons": "insert",
+    "typescript.format.semicolons": "insert"
 }
