@@ -7,7 +7,7 @@
           <NewTask @added="handledAddedTask" />
 
           <!-- List of tasks uncompleted -->
-          <Tasks :tasks="uncompletedTasks" @updated="$event => handledUpdatedTask" />
+          <Tasks :tasks="uncompletedTasks" @updated="handledUpdatedTask" @completed="handledCompletedTask" />
 
           <!-- show toogle botton -->
           <div class="text-center my-3" v-show="showToggleCompletedBtn"
@@ -19,7 +19,8 @@
           </div>
 
           <!-- List of tasks completed -->
-          <Tasks :tasks="completedTasks" :show="completedTasksIsVisible && showCompletedTasks" />
+          <Tasks :tasks="completedTasks" :show="completedTasksIsVisible && showCompletedTasks"
+            @updated="handledUpdatedTask" @completed="handledCompletedTask" />
 
         </div>
       </div>
@@ -29,7 +30,7 @@
 
 <script setup>
 import { computed, onMounted, ref } from "vue";
-import { allTasks, createTask, updateTask } from '../http/task-api';
+import { allTasks, completeTask, createTask, updateTask } from '../http/task-api';
 import Tasks from '../components/tasks/Tasks.vue';
 import NewTask from '../components/tasks/NewTask.vue';
 
@@ -55,18 +56,27 @@ const completedTasksIsVisible = computed(
 
 const showCompletedTasks = ref(false);
 
-const handledAddedTask = async (newTask) =>
+const handledAddedTask = async newTask =>
 {
   const { data: addedTask } = await createTask(newTask);
   tasks.value.unshift(addedTask.data);
 }
 
-const handledUpdatedTask = async (task) =>
+const handledUpdatedTask = async task =>
 {
   const { data: changedTask } = await updateTask(task.id, {
     name: task.name
   });
   const currentTask = tasks.value.find(item => item.id == task.id);
   currentTask.name = changedTask.data.name;
+}
+
+const handledCompletedTask = async task =>
+{
+  const { data: changedTask } = await completeTask(task.id, {
+    is_completed: task.is_completed
+  });
+  const currentTask = tasks.value.find(item => item.id == task.id);
+  currentTask.is_completed = changedTask.data.is_completed;
 }
 </script>

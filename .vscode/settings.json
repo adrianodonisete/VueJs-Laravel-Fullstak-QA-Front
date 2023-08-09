@@ -4,7 +4,10 @@
     "editor.detectIndentation": true,
     "editor.formatOnSave": true,
     "prettier.semi": true,
-    "prettier.vueIndentScriptAndStyle": false,
+    "prettier.vueIndentScriptAndStyle": true,
     "javascript.format.semicolons": "insert",
-    "typescript.format.semicolons": "insert"
+    "typescript.format.semicolons": "insert",
+    "prettier.singleAttributePerLine": true,
+    "prettier.bracketSameLine": false,
+    "prettier.printWidth": 120
 }
