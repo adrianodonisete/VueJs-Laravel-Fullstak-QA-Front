@@ -1,13 +1,9 @@
 {
-    "editor.tabSize": 2,
-    "editor.fontSize": 13.25,
-    "editor.detectIndentation": true,
-    "editor.formatOnSave": true,
-    "prettier.semi": true,
-    "prettier.vueIndentScriptAndStyle": true,
-    "javascript.format.semicolons": "insert",
-    "typescript.format.semicolons": "insert",
-    "prettier.singleAttributePerLine": true,
-    "prettier.bracketSameLine": false,
-    "prettier.printWidth": 120
+  "editor.tabSize": 2,
+  "editor.fontSize": 13.25,
+  "editor.detectIndentation": false,
+  "editor.formatOnSave": true,
+  "prettier.semi": true,
+  "prettier.printWidth": 120,
+  "prettier.singleQuote": true
 }
