@@ -1,10 +1,12 @@
 {
   "editor.tabSize": 2,
   "editor.fontSize": 13.25,
-  "editor.detectIndentation": false,
+  // "editor.detectIndentation": false,
   "editor.formatOnSave": true,
-  "prettier.semi": true,
+  "prettier.vueIndentScriptAndStyle": false,
+  "prettier.bracketSameLine": true,
+  "prettier.singleAttributePerLine": true,
+  "prettier.arrowParens": "avoid",
   "prettier.printWidth": 120,
-  "prettier.singleQuote": true,
-  "prettier.arrowParens": "avoid"
+  "prettier.singleQuote": true
 }

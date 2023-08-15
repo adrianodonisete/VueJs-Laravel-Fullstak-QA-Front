@@ -1,0 +1,3 @@
+config volar and eslint
+
+https://github.com/sethidden/vue3-eslint-stylelint-demo/tree/master/src
