@@ -1,3 +1,25 @@
 config volar and eslint
 
 https://github.com/sethidden/vue3-eslint-stylelint-demo/tree/master/src
+
+
+
+
+
+
+Project Repositories
+Here are the project repositories of this course:
+
+Toedoe List App
+
+Template
+https://bitbucket.org/edomaru/toedoe-list-theme/get/2715681cb880.zip
+
+API
+https://bitbucket.org/edomaru/laravel-todo-api
+
+Client
+https://bitbucket.org/edomaru/toedoe-list-client/src/master/
+
+Laravel QA
+https://github.com/tutsprime/laravel-qa

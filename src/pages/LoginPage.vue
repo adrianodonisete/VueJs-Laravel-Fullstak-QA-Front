@@ -1,11 +1,13 @@
 <template>
-    <h1>Login page</h1>
+    <main style="min-height: 50vh; margin-top: 2rem">
+        <h1>Login page</h1>
 
-    <button
-        class="btn btn-primary"
-        @click.prevent="handleClick">
-        Login
-    </button>
+        <button
+            class="btn btn-primary"
+            @click.prevent="handleClick">
+            Login
+        </button>
+    </main>
 </template>
 
 <script setup>
