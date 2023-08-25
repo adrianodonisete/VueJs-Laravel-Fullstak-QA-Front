@@ -9,8 +9,12 @@ export const useAuthStore = defineStore('authStore', () => {
     const isLoggedIn = computed(() => !!user.value);
 
     const fetchUser = async () => {
-        const { data } = await getUser();
-        user.value = data;
+        try {
+            const { data } = await getUser();
+            user.value = data;
+        } catch (error) {
+            user.value = null;
+        }
     };
 
     const handleLogin = async credentials => {
@@ -28,7 +32,7 @@ export const useAuthStore = defineStore('authStore', () => {
     };
 
     const handleLogout = async () => {
-        // await csrfCookie();
+        await csrfCookie();
         await logout();
 
         user.value = null;
