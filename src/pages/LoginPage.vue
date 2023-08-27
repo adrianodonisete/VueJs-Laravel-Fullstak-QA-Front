@@ -14,38 +14,63 @@
                 <input
                     type="email"
                     class="form-control"
+                    :class="{ 'is-invalid': errors.email && errors.email[0] }"
                     id="email"
                     v-model="form.email"
                     placeholder="name@example.com" />
                 <label for="email">Email</label>
+                <div
+                    class="invalid-feedback"
+                    v-if="errors.email && errors.email[0]">
+                    {{ errors.email && errors.email[0] }}
+                </div>
             </div>
 
             <div class="form-floating mb-3">
                 <input
                     type="password"
                     class="form-control"
+                    :class="{ 'is-invalid': errors.password && errors.password[0] }"
                     id="password"
                     v-model="form.password"
                     placeholder="Password" />
                 <label for="password">Password</label>
+                <div
+                    class="invalid-feedback"
+                    v-if="errors.password && errors.password[0]">
+                    {{ errors.password && errors.password[0] }}
+                </div>
             </div>
 
             <button
                 class="w-100 btn btn-lg btn-primary"
+                :class="toggleBtLogin"
                 type="submit">
                 Sign in
             </button>
+
+            <div
+                class="spinner-border text-primary"
+                :class="toggleWait"
+                role="status">
+                <span class="visually-hidden">Loading...</span>
+            </div>
         </form>
     </main>
 </template>
 
 <script setup>
-import { reactive } from 'vue';
+import { computed, reactive, ref } from 'vue';
+import { storeToRefs } from 'pinia';
 import { useRouter } from 'vue-router';
 import { useAuthStore } from '../stores/auth';
 
 const router = useRouter();
 const store = useAuthStore();
+const { isLoggedIn, errors } = storeToRefs(store);
+const { handleLogin } = store;
+
+const isWaiting = ref(false);
 
 const form = reactive({
     email: '',
@@ -53,10 +78,18 @@ const form = reactive({
 });
 
 const handleSubmit = async () => {
-    await store.handleLogin(form);
+    isWaiting.value = true;
+    await handleLogin(form);
 
-    router.push({ name: 'tasks' });
+    if (isLoggedIn.value) {
+        router.push({ name: 'tasks' });
+    } else {
+        isWaiting.value = false;
+    }
 };
+
+const toggleWait = computed(() => (isWaiting.value ? '' : 'item-hide'));
+const toggleBtLogin = computed(() => (isWaiting.value ? 'item-hide' : ''));
 </script>
 
 <style scoped>
@@ -72,5 +105,9 @@ const handleSubmit = async () => {
 
 .auth-form {
     width: 400px;
+}
+
+.item-hide {
+    display: none;
 }
 </style>

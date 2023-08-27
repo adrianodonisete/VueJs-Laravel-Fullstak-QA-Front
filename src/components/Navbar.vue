@@ -31,12 +31,6 @@
                             class="nav-link">
                             Tasks
                         </router-link>
-                        <!-- <a
-                            href="#"
-                            class="nav-link"
-                            @click.prevent="$ev => $router.push('/tasks')">
-                            Tasks
-                        </a> -->
                     </li>
                     <li class="nav-item">
                         <router-link
@@ -64,13 +58,41 @@
                         </li>
                     </template>
                     <template v-else>
-                        <li class="nav-item">
+                        <li class="nav-item dropdown">
                             <a
-                                href="#"
-                                class="btn btn-outline-secondary ms-2"
-                                @click.prevent="logoutHandler">
-                                Logout
+                                class="nav-link dropdown-toggle"
+                                :class="toggleClass"
+                                @click="toggleDropdownUser"
+                                href="javascript:;"
+                                role="button"
+                                data-bs-toggle="dropdown"
+                                aria-expanded="false">
+                                {{ store.user.name }}
                             </a>
+                            <ul
+                                class="dropdown-menu"
+                                :class="toggleClass">
+                                <li>
+                                    <a
+                                        href="javascript:;"
+                                        class="dropdown-item"
+                                        :class="toggleBtLogout"
+                                        @click.prevent="logoutHandler">
+                                        Logout
+                                    </a>
+
+                                    <div
+                                        class="d-flex justify-content-center"
+                                        :class="toggleWait">
+                                        <div
+                                            class="spinner-border text-secondary"
+                                            :class="toggleWait"
+                                            role="status">
+                                            <span class="visually-hidden">Loading...</span>
+                                        </div>
+                                    </div>
+                                </li>
+                            </ul>
                         </li>
                     </template>
                 </ul>
@@ -80,20 +102,39 @@
 </template>
 
 <script setup>
+import { computed, ref } from 'vue';
 import { useRouter } from 'vue-router';
 import { useAuthStore } from '../stores/auth';
 
 const router = useRouter();
 const store = useAuthStore();
 
+const isOpen = ref(false);
+const isWaiting = ref(false);
+
 const logoutHandler = async () => {
+    isWaiting.value = true;
+
     await store.handleLogout();
+    isOpen.value = false;
+    isWaiting.value = false;
+
     router.push({ name: 'login' });
 };
+
+const toggleDropdownUser = () => (isOpen.value = !isOpen.value);
+const toggleClass = computed(() => (isOpen.value ? 'show' : ''));
+
+const toggleWait = computed(() => (isWaiting.value ? '' : 'item-hide'));
+const toggleBtLogout = computed(() => (isWaiting.value ? 'item-hide' : ''));
 </script>
 
 <style scoped>
 .nav-link-router-link-active {
     color: rgba(0, 0, 0, 0.9);
+}
+
+.item-hide {
+    display: none;
 }
 </style>
