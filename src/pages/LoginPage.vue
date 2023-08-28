@@ -106,8 +106,4 @@ const toggleBtLogin = computed(() => (isWaiting.value ? 'item-hide' : ''));
 .auth-form {
     width: 400px;
 }
-
-.item-hide {
-    display: none;
-}
 </style>

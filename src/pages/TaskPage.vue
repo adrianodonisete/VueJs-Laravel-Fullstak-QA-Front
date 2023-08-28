@@ -49,5 +49,5 @@ const showToggleCompletedBtn = computed(() => uncompletedTasks.value.length > 0 
 
 const completedTasksIsVisible = computed(() => uncompletedTasks.value.length === 0 || completedTasks.value.length > 0);
 
-const showCompletedTasks = ref(false);
+const showCompletedTasks = ref(false || completedTasksIsVisible.value);
 </script>

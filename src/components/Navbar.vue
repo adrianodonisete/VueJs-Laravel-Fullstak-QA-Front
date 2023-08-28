@@ -133,8 +133,4 @@ const toggleBtLogout = computed(() => (isWaiting.value ? 'item-hide' : ''));
 .nav-link-router-link-active {
     color: rgba(0, 0, 0, 0.9);
 }
-
-.item-hide {
-    display: none;
-}
 </style>
